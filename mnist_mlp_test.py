@@ -17,7 +17,7 @@ from keras.models import Sequential
 from keras.layers.core import Dense, Dropout, Activation
 from keras.optimizers import RMSprop
 from keras.utils import np_utils
-
+from keras import backend as K
 
 batch_size = 128
 nb_classes = 10
@@ -62,3 +62,7 @@ score = model.evaluate(X_test, Y_test, verbose=0)
 print('2 seconds per epoch on a K520 GPU.')
 print('Test score:', score[0])
 print('Test accuracy:', score[1])
+
+# reap session to avoid error randomly thrown by TensorFlow on shutdown.
+# https://github.com/tensorflow/tensorflow/issues/3388
+K.clear_session()
